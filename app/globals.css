@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 213 60% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 213 60% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 60% 12%;
+
+    /* Deep navy */
+    --primary: 213 60% 22%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 213 20% 96%;
+    --secondary-foreground: 213 60% 22%;
+
+    --muted: 213 15% 95%;
+    --muted-foreground: 213 20% 48%;
+
+    /* Orange/amber accent */
+    --accent: 213 30% 94%;
+    --accent-foreground: 213 60% 22%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 213 20% 88%;
+    --input: 213 20% 88%;
+    --ring: 213 60% 22%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 213 60% 8%;
+    --foreground: 0 0% 98%;
+    --card: 213 55% 11%;
+    --card-foreground: 0 0% 98%;
+    --popover: 213 55% 11%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 213 70% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 213 40% 18%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 213 40% 18%;
+    --muted-foreground: 213 20% 65%;
+    --accent: 213 40% 18%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 213 40% 20%;
+    --input: 213 40% 20%;
+    --ring: 213 70% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide native cursor when custom cursor is active */
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+/* Section label style */
+.section-label {
+  @apply text-xs font-semibold tracking-[0.25em] uppercase text-orange-500;
+}
+
+/* Orange highlight on primary buttons */
+.btn-orange {
+  @apply bg-orange-500 text-white hover:bg-orange-600 transition-colors;
+}
