@@ -9,16 +9,18 @@ import CTA from "@/components/blocks/cta";
 import Contact from "@/components/blocks/contact";
 import Footer from "@/components/blocks/footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
-import { getSiteSettings, getHeroSection, getStats, getServices } from "@/sanity/queries";
+import { getSiteSettings, getHeroSection, getStats, getServices, getTestimonials } from "@/sanity/queries";
+import Testimonials from "@/components/blocks/testimonials";
 
 export const revalidate = 60; // revalidate every 60 seconds
 
 export default async function Home() {
-  const [siteSettings, heroData, statsData, servicesData] = await Promise.all([
+  const [siteSettings, heroData, statsData, servicesData, testimonialsData] = await Promise.all([
     getSiteSettings(),
     getHeroSection(),
     getStats(),
     getServices(),
+    getTestimonials(),
   ]);
 
   const stats = statsData ? [
@@ -60,6 +62,7 @@ export default async function Home() {
       <Fleet />
       <Coverage />
       <Clients />
+      <Testimonials testimonials={testimonialsData} />
       <CTA siteSettings={siteSettings} />
       <Contact siteSettings={siteSettings} />
       <Footer siteSettings={siteSettings} />

@@ -112,39 +112,36 @@ export function GetQuoteModal() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
 
     setIsSubmitting(true)
 
-    const subject = `New Quote Request from ${form.fullName}`
-    const body = [
-      "PRASANTH ROADLINES — QUOTE REQUEST",
-      "=====================================",
-      "",
-      `Full Name      : ${form.fullName}`,
-      `Mobile Number  : ${form.mobileNumber}`,
-      `Pickup Location: ${form.pickupLocation}`,
-      `Delivery Location: ${form.deliveryLocation}`,
-      `Type of Goods  : ${form.typeOfGoods || "Not specified"}`,
-      `Additional Notes: ${form.notes || "None"}`,
-      "",
-      "Please respond within 2 hours with a customized quote.",
-    ].join("\n")
+    try {
+      const res = await fetch("/api/send-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: form.fullName,
+          mobileNumber: form.mobileNumber,
+          pickupLocation: form.pickupLocation,
+          deliveryLocation: form.deliveryLocation,
+          typeOfGoods: form.typeOfGoods,
+          notes: form.notes,
+        }),
+      })
 
-    const mailtoLink = `mailto:prasanthroadlines@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-
-    // Create a hidden anchor and click it — most reliable mailto trigger
-    const a = document.createElement("a")
-    a.href = mailtoLink
-    a.style.display = "none"
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-
-    setIsSubmitting(false)
-    setIsSuccess(true)
+      if (res.ok) {
+        setIsSuccess(true)
+      } else {
+        alert("Something went wrong. Please try WhatsApp or call us directly.")
+      }
+    } catch {
+      alert("Something went wrong. Please try WhatsApp or call us directly.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleClose = useCallback(() => {
