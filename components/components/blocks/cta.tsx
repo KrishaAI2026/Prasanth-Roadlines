@@ -3,7 +3,12 @@
 import { motion } from "framer-motion";
 import { Phone, ArrowRight, Mail } from "lucide-react";
 
-export default function CTA() {
+interface SiteSettings { phone1?: string; email?: string; }
+
+export default function CTA({ siteSettings }: { siteSettings?: SiteSettings }) {
+  const phone1 = siteSettings?.phone1 || "9948729999";
+  const email = siteSettings?.email || "prasanthroadlines@gmail.com";
+
   return (
     <section className="py-24 bg-[#0d1f3c] relative overflow-hidden">
       {/* Background pattern */}
@@ -43,20 +48,20 @@ export default function CTA() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
             <a
-              href="tel:+919948729999"
+              href={`tel:+91${phone1}`}
               className="group flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-8 py-4 rounded-full font-bold text-base transition-all duration-200 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105"
             >
               <Phone className="h-5 w-5" />
-              +91 9948729999
+              +91 {phone1}
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </a>
 
             <a
-              href="mailto:prasanthroadlines@gmail.com"
+              href={`mailto:${email}`}
               className="flex items-center gap-3 border border-white/20 text-white/80 hover:text-white hover:border-orange-500/60 px-8 py-4 rounded-full font-bold text-base transition-all duration-200"
             >
               <Mail className="h-5 w-5 text-orange-400" />
-              prasanthroadlines@gmail.com
+              {email}
             </a>
           </div>
 

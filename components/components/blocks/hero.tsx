@@ -1,41 +1,52 @@
-﻿"use client";
+"use client";
 
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { ArrowRight } from "lucide-react";
+import { urlFor, fileUrl } from "@/sanity/image";
 
-const VIDEO_SRC = "/services-bg.mp4";
+interface HeroData {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  buttonText?: string;
+  backgroundImage?: any;
+  video?: any;
+}
 
-const POSTER_SRC = "/hero-bg.png";
-
-const BG_SRC = "/hero-bg.png";
-
-export default function Hero() {
+export default function Hero({ heroData }: { heroData?: HeroData }) {
   const handleGetQuote = () => {
     window.dispatchEvent(new CustomEvent("prasanth:open-quote"));
   };
+
+  const title       = heroData?.title       || "PRASANTH ROADLINES";
+  const subtitle    = heroData?.subtitle    || "Delivering More Than Cargo";
+  const description = heroData?.description || "Trusted chemical transport & pharma transport in Visakhapatnam — safe, compliant road freight across India's major industrial hubs.";
+  const buttonText  = heroData?.buttonText  || "Get a Free Quote";
+
+  const bgSrc    = heroData?.backgroundImage ? urlFor(heroData.backgroundImage).url() : "/hero-bg.png";
+  const videoSrc = heroData?.video           ? fileUrl(heroData.video)                : "/services-bg.mp4";
 
   return (
     <div id="home">
       <ScrollExpandMedia
         mediaType="video"
-        mediaSrc={VIDEO_SRC}
-        posterSrc={POSTER_SRC}
-        bgImageSrc={BG_SRC}
-        title="PRASANTH ROADLINES"
-        date="Delivering More Than Cargo"
-        scrollToExpand="â†“ Scroll to play & explore"
+        mediaSrc={videoSrc}
+        posterSrc={bgSrc}
+        bgImageSrc={bgSrc}
+        title={title}
+        date={subtitle}
+        scrollToExpand="↓ Scroll to play & explore"
         textBlend={false}
       >
         <div className="flex flex-col items-center gap-6 py-10 text-center">
           <p className="text-white/60 text-lg max-w-xl leading-relaxed">
-            Trusted chemical transport &amp; pharma transport in Visakhapatnam —
-            safe, compliant road freight across India's major industrial hubs.
+            {description}
           </p>
           <button
             onClick={handleGetQuote}
             className="group flex items-center gap-3 bg-orange-500 hover:bg-orange-400 text-white px-8 py-4 rounded-full font-bold text-base transition-all duration-200 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105"
           >
-            Get a Free Quote
+            {buttonText}
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>

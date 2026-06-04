@@ -34,7 +34,32 @@ const services: Service[] = [
   },
 ];
 
-export default function Services() {
+const iconMap: Record<string, React.ElementType> = {
+  "001": FlaskConical,
+  "002": Package,
+  "003": Route,
+};
+
+const gradientMap: Record<string, string> = {
+  "001": "bg-gradient-to-br from-amber-900 via-amber-800 to-amber-700",
+  "002": "bg-gradient-to-br from-slate-800 via-slate-700 to-slate-600",
+  "003": "bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700",
+};
+
+interface SanityService { number?: string; title?: string; description?: string; }
+
+export default function Services({ servicesData }: { servicesData?: SanityService[] }) {
+  const displayServices: Service[] = servicesData && servicesData.length > 0
+    ? servicesData.map((s) => ({
+        number: s.number || "001",
+        title: s.title || "",
+        description: s.description || "",
+        icon: iconMap[s.number || "001"] || FlaskConical,
+        gradient: gradientMap[s.number || "001"] || gradientMap["001"],
+        image: services.find((def) => def.number === s.number)?.image,
+      }))
+    : services;
+
   return (
     <section id="services" className="py-24 bg-[#0d1f3c] overflow-hidden">
       <div className="container mx-auto px-4 mb-16">
@@ -58,7 +83,7 @@ export default function Services() {
         </motion.div>
       </div>
 
-      <ServiceCarousel services={services} />
+      <ServiceCarousel services={displayServices} />
     </section>
   );
 }

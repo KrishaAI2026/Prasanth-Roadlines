@@ -3,7 +3,20 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
-export default function Contact() {
+interface SiteSettings {
+  phone1?: string;
+  phone2?: string;
+  email?: string;
+  address?: string;
+  workingHours?: string;
+}
+
+export default function Contact({ siteSettings }: { siteSettings?: SiteSettings }) {
+  const phone1 = siteSettings?.phone1 || "9948729999";
+  const phone2 = siteSettings?.phone2 || "9407279999";
+  const email = siteSettings?.email || "prasanthroadlines@gmail.com";
+  const address = siteSettings?.address || "195/4, Block D, Industrial Development Area, Auto Nagar, Visakhapatnam, Andhra Pradesh 530012";
+  const workingHours = siteSettings?.workingHours || "Monday - Saturday: 9:00 AM - 6:00 PM";
   return (
     <section id="contact" className="py-24 bg-slate-50 overflow-hidden">
       <div className="container mx-auto px-4">
@@ -81,16 +94,16 @@ export default function Contact() {
                   Phone
                 </p>
                 <a
-                  href="tel:+919948729999"
+                  href={`tel:+91${phone1}`}
                   className="block text-[#1e3a5f] font-semibold text-sm hover:text-orange-500 transition-colors"
                 >
-                  +91 9948729999
+                  +91 {phone1}
                 </a>
                 <a
-                  href="tel:+919407279999"
+                  href={`tel:+91${phone2}`}
                   className="block text-[#1e3a5f] font-semibold text-sm hover:text-orange-500 transition-colors mt-1"
                 >
-                  +91 9407279999
+                  +91 {phone2}
                 </a>
               </div>
             </div>
@@ -105,10 +118,10 @@ export default function Contact() {
                   Email
                 </p>
                 <a
-                  href="mailto:prasanthroadlines@gmail.com"
+                  href={`mailto:${email}`}
                   className="text-[#1e3a5f] font-semibold text-sm hover:text-orange-500 transition-colors"
                 >
-                  prasanthroadlines@gmail.com
+                  {email}
                 </a>
               </div>
             </div>
@@ -123,7 +136,7 @@ export default function Contact() {
                   Working Hours
                 </p>
                 <p className="text-[#1e3a5f] font-semibold text-sm">
-                  Monday - Saturday: 9:00 AM - 6:00 PM
+                  {workingHours}
                 </p>
                 <p className="text-slate-400 text-xs mt-1">
                   Sunday: By Appointment Only

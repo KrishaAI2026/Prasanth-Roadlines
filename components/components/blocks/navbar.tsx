@@ -25,7 +25,12 @@ const menu = [
   { title: "Contact",  id: "contact" },
 ];
 
-export default function Navbar() {
+interface SiteSettings { phone1?: string; email?: string; }
+
+export default function Navbar({ siteSettings }: { siteSettings?: SiteSettings }) {
+  const phone1 = siteSettings?.phone1 || "9948729999";
+  const email = siteSettings?.email || "prasanthroadlines@gmail.com";
+
   const [scrolled, setScrolled] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const { openModal } = useQuoteModal();
@@ -103,18 +108,18 @@ export default function Navbar() {
           {/* Right side */}
           <div className="flex gap-4 items-center">
             <a
-              href="tel:+919948729999"
+              href={`tel:+91${phone1}`}
               className="flex items-center gap-1.5 text-sm text-white/70 hover:text-orange-400 transition-colors"
             >
               <Phone className="h-3.5 w-3.5" />
-              +91 9948729999
+              +91 {phone1}
             </a>
             <a
-              href="mailto:prasanthroadlines@gmail.com"
+              href={`mailto:${email}`}
               className="flex items-center gap-1.5 text-sm text-white/70 hover:text-orange-400 transition-colors"
             >
               <Mail className="h-3.5 w-3.5" />
-              prasanthroadlines@gmail.com
+              {email}
             </a>
             <Button
               size="sm"
@@ -182,18 +187,18 @@ export default function Navbar() {
 
                 <div className="mt-6 flex flex-col gap-3">
                   <a
-                    href="tel:+919948729999"
+                    href={`tel:+91${phone1}`}
                     className="flex items-center gap-2 text-sm text-white/70"
                   >
                     <Phone className="h-4 w-4 text-orange-400" />
-                    +91 9948729999
+                    +91 {phone1}
                   </a>
                   <a
-                    href="mailto:prasanthroadlines@gmail.com"
+                    href={`mailto:${email}`}
                     className="flex items-center gap-2 text-sm text-white/70"
                   >
                     <Mail className="h-4 w-4 text-orange-400" />
-                    prasanthroadlines@gmail.com
+                    {email}
                   </a>
                   <Button
                     onClick={() => { openModal(); setSheetOpen(false); }}

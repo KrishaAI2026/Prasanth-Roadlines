@@ -4,6 +4,7 @@ import "./globals.css"
 import { QuoteModalProvider } from "@/components/ui/quote-context"
 import { GetQuoteModal } from "@/components/ui/get-quote-modal"
 import { WhatsAppFloat } from "@/components/ui/whatsapp-float"
+import { getSiteSettings } from "@/sanity/queries"
 
 const inter = Inter({
   variable: "--font-sans",
@@ -150,14 +151,26 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const settings = await getSiteSettings();
+  const primaryColor = settings?.primaryColor || "#f97316";
+  const darkColor    = settings?.darkColor    || "#0d1f3c";
+  const navColor     = settings?.navColor     || "#1e3a5f";
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${barlowCondensed.variable} antialiased font-sans`}>
+      <body
+        className={`${inter.variable} ${barlowCondensed.variable} antialiased font-sans`}
+        style={{
+          "--color-primary": primaryColor,
+          "--color-dark":    darkColor,
+          "--color-nav":     navColor,
+        } as React.CSSProperties}
+      >
         {/* Structured data — tells Google this is a local business */}
         <script
           type="application/ld+json"

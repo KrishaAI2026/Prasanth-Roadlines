@@ -1,4 +1,4 @@
-﻿import Navbar from "@/components/blocks/navbar";
+import Navbar from "@/components/blocks/navbar";
 import Hero from "@/components/blocks/hero";
 import Services from "@/components/blocks/services";
 import Process from "@/components/blocks/process";
@@ -9,29 +9,41 @@ import CTA from "@/components/blocks/cta";
 import Contact from "@/components/blocks/contact";
 import Footer from "@/components/blocks/footer";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { getSiteSettings, getHeroSection, getStats, getServices } from "@/sanity/queries";
 
-export default function Home() {
+export const revalidate = 60; // revalidate every 60 seconds
+
+export default async function Home() {
+  const [siteSettings, heroData, statsData, servicesData] = await Promise.all([
+    getSiteSettings(),
+    getHeroSection(),
+    getStats(),
+    getServices(),
+  ]);
+
+  const stats = statsData ? [
+    { value: statsData.stat1Value || "2,000+ KM", label: statsData.stat1Label || "Routes Daily" },
+    { value: statsData.stat2Value || "500+",      label: statsData.stat2Label || "Deliveries/Month" },
+    { value: statsData.stat3Value || "50+",       label: statsData.stat3Label || "Trusted Clients" },
+    { value: statsData.stat4Value || "100%",      label: statsData.stat4Label || "Compliance" },
+  ] : [
+    { value: "2,000+ KM", label: "Routes Daily" },
+    { value: "500+",      label: "Deliveries/Month" },
+    { value: "50+",       label: "Trusted Clients" },
+    { value: "100%",      label: "Compliance" },
+  ];
+
   return (
     <main className="overflow-x-hidden">
-      {/* Global custom cursor */}
       <CustomCursor />
-
-      {/* 1. Sticky Navbar */}
-      <Navbar />
-
-      {/* 2. Hero â€” Scroll-to-expand animation */}
-      <Hero />
+      <Navbar siteSettings={siteSettings} />
+      <Hero heroData={heroData} />
 
       {/* Stats ribbon */}
       <div className="bg-orange-500 py-4 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
-            {[
-              { value: "2,000+ KM", label: "Routes Daily" },
-              { value: "500+", label: "Deliveries/Month" },
-              { value: "50+", label: "Trusted Clients" },
-              { value: "100%", label: "Compliance" },
-            ].map((stat) => (
+            {stats.map((stat) => (
               <div key={stat.label} className="flex items-center gap-3">
                 <p className="text-2xl font-black text-white">{stat.value}</p>
                 <p className="text-xs text-white/75 uppercase tracking-wider font-semibold">
@@ -43,29 +55,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 3. Services â€” Animated carousel cards */}
-      <Services />
-
-      {/* 4. Process â€” Interactive stepper */}
+      <Services servicesData={servicesData} />
       <Process />
-
-      {/* 5. About/Fleet — Bento grid with stats & images */}
       <Fleet />
-
-      {/* 6. Routes & Industries */}
       <Coverage />
-
-      {/* 7. Clients — Auto-scrolling logo strip */}
       <Clients />
-
-      {/* 7. CTA â€” call buttons */}
-      <CTA />
-
-      {/* 8. Contact & Location */}
-      <Contact />
-
-      {/* 9. Footer */}
-      <Footer />
+      <CTA siteSettings={siteSettings} />
+      <Contact siteSettings={siteSettings} />
+      <Footer siteSettings={siteSettings} />
     </main>
   );
 }

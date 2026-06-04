@@ -2,6 +2,8 @@
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 interface Footer7Props {
+  phone1?: string;
+  email?: string;
   logo?: {
     url: string;
     src?: string;
@@ -68,17 +70,51 @@ const defaultLegalLinks = [
 ];
 
 export const Footer7 = ({
+  phone1,
+  email,
   logo = {
     url: "#home",
     alt: "Prasanth Roadlines",
     title: "Prasanth Roadlines",
   },
-  sections = defaultSections,
+  sections,
   description = "A trusted logistics partner specializing in chemical, pharmaceutical, and bulk transport across major industrial hubs.",
   socialLinks = defaultSocialLinks,
-  copyright = "Â© 2025 Prasanth Roadlines. All rights reserved.",
+  copyright = "© 2025 Prasanth Roadlines. All rights reserved.",
   legalLinks = defaultLegalLinks,
 }: Footer7Props) => {
+  const resolvedPhone = phone1 || "9948729999";
+  const resolvedEmail = email || "prasanthroadlines@gmail.com";
+  const resolvedSections = sections || [
+    {
+      title: "Services",
+      links: [
+        { name: "Chemical & Pharma", href: "#services" },
+        { name: "Bulk Transport", href: "#services" },
+        { name: "Interstate Freight", href: "#services" },
+        { name: "Get a Quote", href: "#contact" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { name: "About Us", href: "#about" },
+        { name: "Our Process", href: "#process" },
+        { name: "Fleet", href: "#about" },
+        { name: "Compliance", href: "#about" },
+      ],
+    },
+    {
+      title: "Contact",
+      links: [
+        { name: `+91 ${resolvedPhone}`, href: `tel:+91${resolvedPhone}` },
+        { name: resolvedEmail, href: `mailto:${resolvedEmail}` },
+        { name: "Auto Nagar, Vizag", href: "#contact" },
+        { name: "Andhra Pradesh", href: "#contact" },
+      ],
+    },
+  ];
+
   return (
     <section className="py-16 bg-[#0a1628] text-white">
       <div className="container mx-auto px-6">
@@ -117,7 +153,7 @@ export const Footer7 = ({
           </div>
 
           <div className="grid w-full gap-8 md:grid-cols-3">
-            {sections.map((section, sectionIdx) => (
+            {resolvedSections.map((section, sectionIdx) => (
               <div key={sectionIdx}>
                 <h3 className="mb-4 font-bold text-sm tracking-widest uppercase text-orange-400">{section.title}</h3>
                 <ul className="space-y-3 text-sm text-white/60">
