@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { fullName, mobileNumber, pickupLocation, deliveryLocation, typeOfGoods, notes } = body;
+    const { fullName, email, mobileNumber, pickupLocation, deliveryLocation, typeOfGoods, notes } = body;
 
     const { data, error } = await resend.emails.send({
       from: "Prasanth Roadlines <onboarding@resend.dev>",
@@ -23,6 +23,10 @@ export async function POST(req: Request) {
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px; width: 40%;">Full Name</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 13px; font-weight: 600;">${fullName}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px;">Email Address</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 13px; font-weight: 600;">${email}</td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 13px;">Mobile Number</td>

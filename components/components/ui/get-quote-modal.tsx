@@ -2,11 +2,12 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, CheckCircle2, Loader2, MapPin, Phone, User, Package, FileText, Truck } from "lucide-react"
+import { X, CheckCircle2, Loader2, MapPin, Phone, User, Package, FileText, Truck, Mail } from "lucide-react"
 import { useQuoteModal } from "@/components/ui/quote-context"
 
 interface FormData {
   fullName: string
+  email: string
   mobileNumber: string
   pickupLocation: string
   deliveryLocation: string
@@ -16,6 +17,7 @@ interface FormData {
 
 interface FormErrors {
   fullName?: string
+  email?: string
   mobileNumber?: string
   pickupLocation?: string
   deliveryLocation?: string
@@ -23,6 +25,7 @@ interface FormErrors {
 
 const INITIAL_FORM: FormData = {
   fullName: "",
+  email: "",
   mobileNumber: "",
   pickupLocation: "",
   deliveryLocation: "",
@@ -98,6 +101,9 @@ export function GetQuoteModal() {
     if (!form.fullName.trim() || form.fullName.trim().length < 2) {
       newErrors.fullName = "Please enter your full name"
     }
+    if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Enter a valid email address"
+    }
     const phone = form.mobileNumber.replace(/\s/g, "")
     if (!phone || !/^[6-9]\d{9}$/.test(phone)) {
       newErrors.mobileNumber = "Enter a valid 10-digit Indian mobile number"
@@ -124,6 +130,7 @@ export function GetQuoteModal() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fullName: form.fullName,
+          email: form.email,
           mobileNumber: form.mobileNumber,
           pickupLocation: form.pickupLocation,
           deliveryLocation: form.deliveryLocation,
@@ -283,6 +290,23 @@ export function GetQuoteModal() {
                               onChange={handleChange}
                               placeholder="e.g. Ravi Kumar"
                               className={inputCls(!!errors.fullName)}
+                            />
+                          </Field>
+
+                          {/* Email */}
+                          <Field
+                            label="Email Address"
+                            required
+                            icon={<Mail className="h-4 w-4" />}
+                            error={errors.email}
+                          >
+                            <input
+                              name="email"
+                              type="email"
+                              value={form.email}
+                              onChange={handleChange}
+                              placeholder="e.g. yourname@company.com"
+                              className={inputCls(!!errors.email)}
                             />
                           </Field>
 
